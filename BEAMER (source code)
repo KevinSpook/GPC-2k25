@@ -1,0 +1,208 @@
+int delay_value = 0;			// Initial LB delay value (modifiable in the menu)
+int fade_delay_value = 0;		// Initial LS delay value (modifiable in the menu)
+int in_menu = 0;				// Flag to track if we are inside the menu
+int menu_option = 0;			// 0 = LB delay, 1 = Turbo fade delay
+int hundreds, tens, ones;		// Variables for digit breakdown
+int i;							// Declare loop counter
+int random_hold_time;
+int KillSwitch;
+int LastKillSwitchState;
+
+// ASCII values extracted from the gpc doc for the titles.
+data (
+    32, 32, 32, 66, 69, 65, 77, 69, 82, 32, 32, 32, 32, 32, 32, 32, 32, 32,		 		// Beamer
+    32, 32, 32, 32, 68, 101, 108, 97, 121, 32, 32, 32,															// Delay 
+    32, 84, 117, 114, 98, 111, 32, 68, 101, 108, 97, 121, 32,							// Turbo Delay
+    68, 73, 83, 69, 66, 76, 70, 68,														// Disabled
+    69, 78, 65, 66, 76, 70, 68															// Enabled
+)
+
+init {
+	
+	set_hsb(258, 42, 100);			// Sets colour to purple
+	LastKillSwitchState = 0;		// Sets kill switch to off by defualt
+	
+    delay_value = get_pvar(SPVAR_1, 10, 200, 405);    			// 405 is my defualt, change to your desired. (405 is being divided by 10, 405/10= 40.5 ms)
+    fade_delay_value = get_pvar(SPVAR_2, 10, 200, 50); 			// 50ms is my defualt FADE delay.
+
+    // Makes sure delay_value cant go below 0
+    if (delay_value == 0) {
+        delay_value = 405;										// 405 is my defualt, change to your desired. (resets to default)
+        set_pvar(SPVAR_1, delay_value);							// Saves def value to persistent memory
+    }
+
+    // Makes sure fade_value cant go below 0
+    if (fade_delay_value == 0) {
+        fade_delay_value = 50;									// Default fade delay, change to your desired. (resets to default)
+        set_pvar(SPVAR_2, fade_delay_value);					// Saves def value to persistent memory
+    }
+}
+
+combo vibrate {
+    set_rumble(RUMBLE_A, 100);		// Uses 100% of vibration power
+    wait(700);						// Vibrates for 700ms
+    set_rumble(RUMBLE_A, 0);		// Stops vibration
+}
+
+
+// Pushes right stick up in one smooth motion
+combo swipe_up_rs_smooth {
+    block(XB360_RX, 1000);							// Blocks right stick X axis from being detected for 1 sec
+    block(XB360_RY, 1000);							// Blocks right stick Y axis from being detected for 1 sec
+    wait(delay_value / 10);							// Waits for default delay then divides by 10
+    set_val(XB360_RY, -100);						// Using the right stick it moves it all the way to -100 using Y asix (TOP)
+    random_hold_time = 350 + (get_rtime() % 51);	// Ensure slight randomness at the end of your shot to add security
+    wait(random_hold_time);							// 
+    set_val(XB360_RX, 0);							// Levels out the X axis
+    set_val(XB360_RY, 0);							// Levels out the Y axis
+}
+
+// Pushes right stick down in one smooth motion
+combo swipe_down_rs_smooth {
+    block(XB360_RX, 1000);							//
+    block(XB360_RY, 1000);							//
+    wait(fade_delay_value);							//
+    set_val(XB360_RY, 100);							// Using the right stick it moves it all the way to +100 using Y asix (BOTTOM)
+    random_hold_time = 350 + (get_rtime() % 51);	//
+    wait(random_hold_time);							//
+    set_val(XB360_RX, 0);							//
+    set_val(XB360_RY, 0);							//
+}
+
+//							DDDD   OOO  N   N  TTTTT     TTTTT  OOO  U   U  CCCC  H   H     BBBB   EEEE  L      OOO  W     W      
+//							D   D O   O NN  N    T         T   O   O U   U C      H   H     B   B  E     L     O   O W     W
+//							D   D O   O N N N    T         T   O   O U   U C      HHHHH     BBBBB  EEEE  L     O   O W  W  W
+//							D   D O   O N  NN    T         T   O   O U   U C      H   H     B   B  E     L     O   O W  W  W
+//							DDDD   OOO  N   N    T         T    OOO  UUUUU  CCCC  H   H     BBBBB  EEEE  LLLLL  OOO  WWWWWWW
+
+                 
+
+
+// Function to display menu options on the OLED
+function display_menu() {
+    cls_oled(OLED_BLACK);							// Clears the OLED Screen
+    if (menu_option == 0) {							//
+        display_title(18, 12);						// Adjust Delay
+        display_delay_value(delay_value);			// Show current LB delay
+    } else {										//
+        display_title(30, 17);						// Turbo Delay
+        display_delay_value(fade_delay_value);		// Show current turbo fade delay
+    }
+}
+
+
+function display_title(int start_index, int length) {
+    for (i = 0; i < length; i++) {
+        putc_oled(1, duint8(start_index + i));
+        puts_oled(10 * i, 0, OLED_FONT_MEDIUM, 1, 1);
+    }
+}
+
+
+function display_delay_value(int value) {
+    hundreds = value / 100;
+    tens = (value / 10) % 10;
+    ones = value % 10;
+    display_digit(hundreds, 50);
+    display_digit(tens, 61);
+    display_digit(ones, 72);
+}
+
+
+function display_digit(int digit, int position) {
+    putc_oled(1, digit + 48);
+    puts_oled(position, 30, OLED_FONT_MEDIUM, 1, 1);
+}
+
+
+main {
+    if (get_val(XB360_LT) && get_val(XB360_BACK)) {
+    combo_run(vibrate);
+    if (!LastKillSwitchState) {
+        KillSwitch = !KillSwitch;
+
+        if (KillSwitch) {
+            set_hsb(0, 100, 100);
+        } else {
+            set_hsb(258, 42, 100);
+        }
+        LastKillSwitchState = 1;
+    }
+   } else {
+   		LastKillSwitchState = 0;
+   	}
+
+
+    if (!KillSwitch) {
+        if (get_val(XB360_LB)) {
+            set_val(XB360_RY, 100);
+            set_val(XB360_RX, 0);
+        }
+
+        if (event_release(XB360_LB)) {
+            set_val(XB360_RY, 0);
+            combo_run(swipe_up_rs_smooth);
+        }
+
+        if (get_val(XB360_LS)) {
+            set_val(XB360_RY, -100);
+            set_val(XB360_RX, 0);
+        }
+
+        if (event_release(XB360_LS)) {
+            set_val(XB360_RY, 0);
+            combo_run(swipe_down_rs_smooth);
+        }
+    }
+
+    if (!in_menu) {
+        cls_oled(OLED_BLACK);
+        display_title(0, 18);
+    }
+
+    if (get_val(XB360_LT) && get_val(XB360_START)) {
+        in_menu = 1;
+        cls_oled(OLED_BLACK);
+        menu_option = 0;
+        display_menu();
+    }
+
+    if (in_menu) {
+        set_val(XB360_LX, 0);
+        set_val(XB360_LY, 0);
+
+        if (event_press(XB360_LEFT)) {
+            if (menu_option == 0 && delay_value > 1) {
+                delay_value -= 1;
+                display_menu();
+                set_pvar(SPVAR_1, delay_value);
+            } else if (menu_option == 1 && fade_delay_value > 1) {
+                fade_delay_value -= 1;
+                display_menu();
+                set_pvar(SPVAR_2, fade_delay_value);
+            }
+        }
+        if (event_press(XB360_RIGHT)) {
+            if (menu_option == 0 && delay_value < 3000) {
+                delay_value += 1;
+                display_menu();
+                set_pvar(SPVAR_1, delay_value);
+            } else if (menu_option == 1 && fade_delay_value < 3000) {
+                fade_delay_value += 1;
+                display_menu();
+                set_pvar(SPVAR_2, fade_delay_value);
+            }
+        }
+
+        if (event_press(XB360_UP) || event_press(XB360_DOWN)) {
+            menu_option = 1 - menu_option;
+            display_menu();
+        }
+
+        if (event_press(XB360_B)) {
+            in_menu = 0;
+            cls_oled(OLED_BLACK);
+            display_title(0, 18);
+        }
+    }
+} ä§—¥‘¤ —¢‘¤’¤•£

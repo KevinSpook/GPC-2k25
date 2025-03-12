@@ -11,7 +11,7 @@ int LastKillSwitchState;
 // ASCII values extracted from the gpc doc for the titles.
 data (
     32, 32, 32, 66, 69, 65, 77, 69, 82, 32, 32, 32, 32, 32, 32, 32, 32, 32,		 		// Beamer
-    32, 32, 32, 32, 68, 101, 108, 97, 121, 32, 32, 32,															// Delay 
+    32, 32, 32, 32, 68, 101, 108, 97, 121, 32, 32, 32,									// Delay 
     32, 84, 117, 114, 98, 111, 32, 68, 101, 108, 97, 121, 32,							// Turbo Delay
     68, 73, 83, 69, 66, 76, 70, 68,														// Disabled
     69, 78, 65, 66, 76, 70, 68															// Enabled

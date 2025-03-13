@@ -8,11 +8,12 @@ I Use a xbox 360 controller so please feel free to change it to your desired one
 
 ## Too slow or too fast? ##
 
-Very Slow,Very Fast, Slightly Slow and Slighly fast and all be tweaked in the menu.
-LT + Back or View (xbox)
-L2 + Share (playstation)
-(in menu left and right corresponds to the direction you want to increase or decrease the time)
-In the menu if you press down you can go into the fade delay settings.
+	Very Slow,Very Fast, Slightly Slow and Slighly fast and all be tweaked in the menu.
+	LT + Back or View (xbox)
+	L2 + Share (playstation)
+ 
+	(in menu left and right corresponds to the direction you want to increase or decrease the time)
+	In the menu if you press down you can go into the fade delay settings.
 
 
 

@@ -9,26 +9,26 @@ I Use a xbox 360 controller so please feel free to change it to your desired one
 
 ## Xbox one controller: ##
 
-Replace "XB360" with "XB1"
-Replace "BACK" with "VIEW"
-Replace "START" with "MENU"
+	Replace "XB360" with "XB1"
+	Replace "BACK" with "VIEW"
+	Replace "START" with "MENU"
 
 ## Playstation 4 and 5: ##
 
-Replace "XB360" with "PS4" OR "PS5"
-Replace "BACK" with "SHARE"
-Replace "LB" with "L1"
-Replace "LT" with "L2"
-Replace "LS" with "L3
-Replace "B" with "O"
-Replace "START with "OPTIONS"
+	Replace "XB360" with "PS4" OR "PS5"
+	Replace "BACK" with "SHARE"
+	Replace "LB" with "L1"
+	Replace "LT" with "L2"
+	Replace "LS" with "L3
+	Replace "B" with "O"
+	Replace "START with "OPTIONS"
 
 ## Play station 3 ##
 
-Replace "XB360" with "PS3"
-Replace "BACK" with "SELECT"
-Replace "LB" with "L1"
-Replace "LT" with "L2"
-Replace "LS" with "L3
-Replace "B" with "O"
+	Replace "XB360" with "PS3"
+	Replace "BACK" with "SELECT"
+	Replace "LB" with "L1"
+	Replace "LT" with "L2"
+	Replace "LS" with "L3
+	Replace "B" with "O"
 

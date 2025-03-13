@@ -13,7 +13,7 @@ Replace "XB360" with "XB1"
 Replace "BACK" with "VIEW"
 Replace "START" with "MENU"
 
-Playstation 4 and 5:
+## Playstation 4 and 5: ##
 
 Replace "XB360" with "PS4" OR "PS5"
 Replace "BACK" with "SHARE"

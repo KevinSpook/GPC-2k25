@@ -29,6 +29,5 @@ I Use a xbox 360 controller so please feel free to change it to your desired one
 	Replace "BACK" with "SELECT"
 	Replace "LB" with "L1"
 	Replace "LT" with "L2"
-	Replace "LS" with "L3"
 	Replace "B" with "O"
 

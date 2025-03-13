@@ -13,7 +13,7 @@ I Use a xbox 360 controller so please feel free to change it to your desired one
 	Replace "BACK" with "VIEW"
 	Replace "START" with "MENU"
 
-## Playstation 4 and 5: ##
+## Playstation 4 and 5 controllers: ##
 
 	Replace "XB360" with "PS4" OR "PS5"
 	Replace "BACK" with "SHARE"
@@ -23,7 +23,7 @@ I Use a xbox 360 controller so please feel free to change it to your desired one
 	Replace "B" with "O"
 	Replace "START with "OPTIONS"
 
-## Play station 3 ##
+## Playstation 3 controller: ##
 
 	Replace "XB360" with "PS3"
 	Replace "BACK" with "SELECT"
